@@ -1,0 +1,92 @@
+.homePage .loadingIcon {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+.homePage .head {
+  font-size: 25px;
+  font-weight: 500;
+}
+
+.homePage .form {
+  width: 70%;
+  margin: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 10px;
+  padding: 10px 10px 50px 10px;
+}
+
+.homePage .form .inputBox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.homePage .form .inputBox label {
+  text-align: left;
+  margin-bottom: 5px;
+}
+
+.homePage .form input,
+.homePage .form select {
+  height: 30px;
+  padding-left: 5px;
+}
+
+.homePage .form textarea {
+  padding: 10px;
+}
+
+.homePage .form .btn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  gap: 20px;
+}
+
+.homePage .form .btn button {
+  padding: 5px 10px;
+  cursor: pointer;
+  border: none;
+  color: white;
+}
+
+.homePage .form .btn .submit {
+  background-color: #2b6777;
+}
+
+.homePage .form .btn .reset {
+  background-color: black;
+}
+
+@media screen and (max-width: 900px) {
+  .homePage .form {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .homePage {
+    padding-top: 100px;
+  }
+  .homePage .form {
+    width: 90%;
+  }
+}
+/*# sourceMappingURL=HomePage.module.css.map */

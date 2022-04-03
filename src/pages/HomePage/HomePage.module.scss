@@ -1,0 +1,68 @@
+.homePage {
+  .loadingIcon{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
+  .head{
+    font-size: 25px;
+    font-weight: 500;
+  }
+  .form {
+    width: 70%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 10px 50px 10px;
+    .inputBox{
+      display: flex;
+      flex-direction: column;
+      label{
+        text-align: left;
+        margin-bottom: 5px;
+      }
+    }
+    input,
+    select {
+      height: 30px;
+      padding-left: 5px;
+    }
+    textarea{
+      padding: 10px;
+    }
+    .btn{
+      display: flex;
+      justify-content: flex-end;
+      gap: 20px;
+      button{
+      padding: 5px 10px;
+      cursor: pointer;
+      border: none;
+      color: white;
+      }
+      .submit{
+        background-color: #2b6777;
+      }
+      .reset{
+        background-color: black;
+      }
+    }
+  }
+}
+@media screen and (max-width:900px) {
+  .homePage {
+    .form{
+      width: 80%;
+    }
+  }
+}
+@media screen and (max-width:600px) {
+  .homePage {
+    padding-top: 100px;
+    .form{
+      width: 90%;
+    }
+  }
+}
