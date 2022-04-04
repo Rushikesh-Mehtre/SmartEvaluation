@@ -38,9 +38,9 @@ const LoginScreen = () => {
         setShowLoading(false);
         navigate("/home");
       }, 2000);
-    } else if (user.username === "hr" || user.username === "hr") {
-      localStorage.setItem("role", "hr");
-      console.log("logged as hr");
+    } else if (user.username === "admin" || user.username === "admin") {
+      localStorage.setItem("role", "admin");
+      console.log("logged as admin");
       setShowLoading(true);
       setTimeout(() => {
         setShowLoading(false);
@@ -88,13 +88,7 @@ const LoginScreen = () => {
           </button>
           <div className={styles.loadingContainer}>
             {showLoading && (
-              <img
-                src={loading}
-                className={styles.loadingImg}
-                width="70px"
-                height="70px"
-                alt=""
-              />
+              <img src={loading} className={styles.loadingImg} alt="" />
             )}
           </div>
         </div>

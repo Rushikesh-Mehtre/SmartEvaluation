@@ -1,7 +1,24 @@
 import React from "react";
 import styles from "./PrivacyPage.module.scss";
 const PrivacyPage = () => {
-  return <div className={styles.privacyPage}>PrivacyPage</div>;
+  return (
+    <div className={styles.privacyPage}>
+      <p className={styles.header}>Privacy Policy</p>
+      <p className={styles.text}>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui numquam
+        cumque eligendi quo odio quod excepturi distinctio ipsam illum eveniet
+        eaque culpa officia corrupti molestiae quae unde, quos suscipit quas?
+        Expedita facilis quas magni. Expedita sunt veniam rerum aspernatur
+        alias, doloribus aperiam eaque reiciendis aliquid explicabo, temporibus
+        natus tempore harum. Lorem, ipsum dolor sit amet consectetur adipisicing
+        elit. Dolores, porro sit eius quibusdam fugit, ipsam enim delectus ea
+        laudantium, quia ut. Est facere architecto, ea officia laboriosam
+        doloribus repellat, deleniti vel corporis unde fuga totam natus quidem
+        cumque ipsum doloremque obcaecati quod ipsa dolore modi! Rerum nesciunt
+        doloremque eum hic.
+      </p>
+    </div>
+  );
 };
 
 export default PrivacyPage;

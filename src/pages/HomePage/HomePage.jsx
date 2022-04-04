@@ -69,7 +69,6 @@ const HomePage = () => {
         }).showToast();
         setCandidateData(initialState);
       }, 2000);
-
       console.log(candidateData);
     }
   };
@@ -94,8 +93,8 @@ const HomePage = () => {
           src={loadingImg}
           alt=""
           className={styles.loadingIcon}
-          height="70px"
-          width="70px"
+          height="60px"
+          width="60px"
         />
       )}
 

@@ -52,6 +52,8 @@
           height: 100px;
         .loadingImg{
           margin-top: 20px;
+          height: 60px;
+          width: 60px;
         }
       }
     }
@@ -68,6 +70,21 @@
       div{
         .head{
           margin-top: 20px;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width:600px) {
+  .loginScreen{
+    .form{
+      div{
+        .loadingContainer{
+          .loadingImg{
+            margin-top: 0px;
+            width: 40px;
+            height: 40px;
+          }
         }
       }
     }

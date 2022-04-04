@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../styles/Navbar.module.scss";
 import logo from "../assets/images/logo.png";
 import { Link } from "react-router-dom";
@@ -10,9 +10,16 @@ const Navbar = () => {
   const role = localStorage.getItem("role");
   const [showItems, setShowItems] = useState(true);
   console.log(role);
-
+  const mql = window.matchMedia("(max-width: 600px)");
+  useEffect(() => {
+    if (mql.matches) {
+      setShowItems(false);
+    }
+  }, [mql.matches]);
   const toggleItemsHandler = () => {
-    setShowItems((prev) => !prev);
+    if (mql.matches) {
+      setShowItems((prev) => !prev);
+    }
   };
   return (
     <div className={styles.navbar}>
@@ -34,10 +41,26 @@ const Navbar = () => {
       </div>
       {showItems && (
         <div className={styles.menuItems}>
-          {role === "user" ? <Link to="/home">Home</Link> : ""}
-          {role === "hr" ? <Link to="/reviews">Reviews</Link> : ""}
-          <Link to="/about">About</Link>
-          <Link to="/privacy">Privacy Policy</Link>
+          {role === "user" ? (
+            <Link to="/home" onClick={toggleItemsHandler}>
+              Home
+            </Link>
+          ) : (
+            ""
+          )}
+          {role === "admin" ? (
+            <Link to="/reviews" onClick={toggleItemsHandler}>
+              Reviews
+            </Link>
+          ) : (
+            ""
+          )}
+          <Link to="/about" onClick={toggleItemsHandler}>
+            About
+          </Link>
+          <Link to="/privacy" onClick={toggleItemsHandler}>
+            Privacy Policy
+          </Link>
           <LogOutModal />
         </div>
       )}
