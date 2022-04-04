@@ -42,7 +42,7 @@ const LogOutModal = () => {
         onClick={openModal}
         style={{
           border: "none",
-          backgroundColor: "white",
+          backgroundColor: "#f3f4f6",
           fontSize: "16px",
           fontWeight: "600",
           cursor: "pointer",

@@ -30,15 +30,15 @@ const LoginScreen = () => {
       }).showToast();
       setUser({ username: "", password: "" });
       return;
-    } else if (user.username === "user" || user.username === "user") {
+    } else if (user.username === "user" && user.password === "user") {
       localStorage.setItem("role", "user");
-      console.log("logged as user/interviewer");
+      console.log("logged as user");
       setShowLoading(true);
       setTimeout(() => {
         setShowLoading(false);
         navigate("/home");
       }, 2000);
-    } else if (user.username === "admin" || user.username === "admin") {
+    } else if (user.username === "admin" && user.password === "admin") {
       localStorage.setItem("role", "admin");
       console.log("logged as admin");
       setShowLoading(true);
