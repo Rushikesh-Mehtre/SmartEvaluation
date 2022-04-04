@@ -4,6 +4,7 @@ import logo from "../assets/images/logo.png";
 import { Link } from "react-router-dom";
 import LogOutModal from "./LogOutModal";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { ImCross } from "react-icons/im";
 
 const Navbar = () => {
   const role = localStorage.getItem("role");
@@ -18,10 +19,17 @@ const Navbar = () => {
       <div className={styles.logoBox}>
         <img src={logo} alt="" className={styles.logo} />
         <span>
-          <GiHamburgerMenu
-            className={styles.hamIcon}
-            onClick={toggleItemsHandler}
-          />
+          {showItems === false ? (
+            <GiHamburgerMenu
+              className={styles.hamIcon}
+              onClick={toggleItemsHandler}
+            />
+          ) : (
+            <ImCross
+              className={styles.crossIcon}
+              onClick={toggleItemsHandler}
+            />
+          )}
         </span>
       </div>
       {showItems && (

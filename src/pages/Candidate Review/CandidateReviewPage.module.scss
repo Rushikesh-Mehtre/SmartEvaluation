@@ -26,6 +26,10 @@
         justify-content: space-between;
         align-items: center;
         margin-bottom: 20px;
+        h2{
+            font-weight: normal;
+            font-size: 20px;
+        }
         .downloadIcon{
             font-size: 20px;
             font-weight: bold;
@@ -39,6 +43,7 @@
         grid-template-columns: repeat(2,1fr);
         .left{
             border-right: 2px solid rgb(223, 214, 214);
+            padding-right: 10px;
         }
        
         .left,.right{
@@ -54,6 +59,34 @@
         }
         .right{
             padding-left: 20px;
+        }
+    }
+}
+@media screen and (max-width:900px) {
+    .candidateReviewPage{
+        width: 85%;
+    }
+}
+@media screen and (max-width:600px) {
+    .candidateReviewPage{
+        width: 90%;
+        margin-top: 0px;
+        padding: 100px 20px 50px 20px;
+        .header{
+            h2{
+                text-align: left;
+            }
+            align-items: flex-start;
+        }
+        .reportData{
+            grid-template-columns: repeat(1,1fr);
+             .left{
+                 padding-right: 0px;
+                 border-right: none;
+             }
+            .right{
+                padding-left: 0px;
+            }
         }
     }
 }

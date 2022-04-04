@@ -11,6 +11,12 @@
       display: none;
       font-size: 25px;
     }
+    .crossIcon{
+      display: none;
+      font-size: 20px;
+      position: relative;
+      left: -3px;
+    }
   }
   .menuItems {
     display: flex;
@@ -31,12 +37,14 @@
     position: absolute;
     width: 100%;
     background: white;
+    padding-bottom: 20px;
     .logoBox{
       width: 100%;
-      .hamIcon{
+      .hamIcon,.crossIcon{
         display: block;
         cursor: pointer;
       }
+    
     }
     .menuItems{
       flex-direction: column;

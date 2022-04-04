@@ -11,6 +11,9 @@
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
+        p{
+            text-align: justify;
+        }
     }
     .actions{
         display: flex;
@@ -22,5 +25,12 @@
             font-size: 20px;
             color: #2b6777;
         }
+    }
+}
+@media screen and (max-width : 600px) {
+    .candidateBlock{
+        gap: 15px;
+        flex-direction: column;
+        padding: 10px;
     }
 }
