@@ -4,10 +4,14 @@ import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
 import { AiFillDelete } from "react-icons/ai";
 import Toastify from "toastify-js";
-
+import { database } from "../firebaseConfig";
 import "toastify-js/src/toastify.css";
 import "react-toastify/dist/ReactToastify.css";
+import { deleteDoc, doc } from "firebase/firestore";
+import styles from "../styles/DeleteModal.module.scss";
 const DeleteModal = (props) => {
+  // const collectionRef = collection(database, "candidates");
+
   const customStyles = {
     overlay: {
       position: "fixed",
@@ -36,7 +40,16 @@ const DeleteModal = (props) => {
   function closeModal() {
     setIsOpen(false);
   }
-  const DeleteHandler = () => {
+  const DeleteHandler = (e) => {
+    e.preventDefault();
+    const docToDelete = doc(database, "candidates", props.id);
+    deleteDoc(docToDelete)
+      .then((response) => {
+        console.log(response);
+        props.onClick();
+        navigate("/reviews");
+      })
+      .catch((error) => console.log(error));
     Toastify({
       text: "Candidate information deleted",
       duration: 2000,
@@ -48,37 +61,25 @@ const DeleteModal = (props) => {
       stopOnFocus: true,
     }).showToast();
     setIsOpen(false);
-    navigate("/reviews");
   };
   return (
-    <div>
-      <button
-        onClick={openModal}
-        style={{
-          border: "none",
-          backgroundColor: "white",
-          fontSize: "17px",
-          fontWeight: "600",
-          cursor: "pointer",
-          color: "#2b6777",
-          position: "relative",
-          top: "-2px",
-        }}
-      >
-        <AiFillDelete />
-      </button>
+    <div className={styles.deleteModal}>
+      <span onClick={openModal} className={styles.deleteIcon}>
+        <AiFillDelete className={styles.icon} />
+      </span>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         style={customStyles}
         contentLabel="Example Modal"
+        ariaHideApp={false}
       >
         <form
           action=""
           style={{ display: "flex", flexDirection: "column", gap: "20px" }}
         >
           <p htmlFor="" style={{ display: "flex", flexDirection: "column" }}>
-            <span>Do you want to delete report of Rushikesh Mehtre</span>
+            <span>Do you want to delete report of {props.name}</span>
             <span> (Candidate Id : {props.id})</span>
           </p>
           <div style={{ alignSelf: "flex-end" }}>

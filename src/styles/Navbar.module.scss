@@ -3,6 +3,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 5px 20px;
+  z-index: 1;
   .logoBox{
     display: flex;
     justify-content: space-between;
@@ -37,7 +38,7 @@
     position: absolute;
     width: 100%;
     background: white;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
     .logoBox{
       width: 100%;
       .hamIcon,.crossIcon{

@@ -42,7 +42,7 @@ const LogOutModal = () => {
         onClick={openModal}
         style={{
           border: "none",
-          backgroundColor: "#f3f4f6",
+          backgroundColor: "transparent",
           fontSize: "16px",
           fontWeight: "600",
           cursor: "pointer",
@@ -55,6 +55,7 @@ const LogOutModal = () => {
         onRequestClose={closeModal}
         style={customStyles}
         contentLabel="Example Modal"
+        ariaHideApp={false}
       >
         <form
           action=""

@@ -9,6 +9,14 @@
     margin: auto;
     margin-top: 50px;
     // align-items: flex-start;
+    .loadingImg{
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        height: 60px;
+        width: 60px;
+    }
     .topHeader{
         margin-bottom: 20px;
         display: flex;
@@ -19,7 +27,23 @@
             font-size: 20px;
             cursor: pointer;
             color: #2b6777;
+            border: 1px solid #87a8b1;
+            padding: 2px 15px;
+            &.deleteModal{
+                border: none;
+                padding: 0px;
+                &:hover{
+                    background-color: none;
+                    color: none;
+                }
+            }
+            &:hover{
+                background-color: #2b6777;;
+                color: white;
+            }
+            
         }
+        
     }
     .header{
         display: flex;
@@ -69,7 +93,7 @@
 }
 @media screen and (max-width:600px) {
     .candidateReviewPage{
-        width: 90%;
+        width: 95%;
         margin-top: 0px;
         padding: 100px 20px 50px 20px;
         .header{

@@ -1,0 +1,21 @@
+.deleteModal{
+    .deleteIcon{
+        border: none;
+        // background-color:transparent;
+        font-size: 17px;
+        font-weight: 600;
+        cursor: pointer;
+        color: #2b6777;
+        // position: relative;
+        // top: -2px;
+        &:hover{
+            .icon{
+                // background-color: #2b6777;;
+                // background-color:transparent;
+                color: white;
+            }
+            } 
+      
+   
+    }
+}

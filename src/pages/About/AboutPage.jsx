@@ -5,6 +5,9 @@ const AboutPage = () => {
     <div className={styles.aboutPage}>
       <p className={styles.header}>About Smart Evaluation</p>
       <p className={styles.text}>
+        <strong>
+          This ReactJS single page application is developed by Rushikesh Mehtre.
+        </strong>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui numquam
         cumque eligendi quo odio quod excepturi distinctio ipsam illum eveniet
         eaque culpa officia corrupti molestiae quae unde, quos suscipit quas?

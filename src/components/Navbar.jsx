@@ -41,14 +41,14 @@ const Navbar = () => {
       </div>
       {showItems && (
         <div className={styles.menuItems}>
-          {role === "user" ? (
+          {role === "interviewer" ? (
             <Link to="/home" onClick={toggleItemsHandler}>
               Home
             </Link>
           ) : (
             ""
           )}
-          {role === "admin" ? (
+          {role === "hr" ? (
             <Link to="/reviews" onClick={toggleItemsHandler}>
               Reviews
             </Link>

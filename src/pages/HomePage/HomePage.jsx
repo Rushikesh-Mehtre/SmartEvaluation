@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./HomePage.module.scss";
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
 import "react-toastify/dist/ReactToastify.css";
 import loadingImg from "../../assets/images/loading.gif";
+import { database } from "../../firebaseConfig";
+import { collection, addDoc } from "firebase/firestore";
 const initialState = {
   cName: "",
   interviewBy: "",
@@ -21,9 +23,14 @@ const initialState = {
   weakness: "",
   comments: "",
 };
+
 const HomePage = () => {
+  const collectionRef = collection(database, "candidates");
   const [loading, setLoading] = useState(false);
   const [candidateData, setCandidateData] = useState(initialState);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const submitHandler = (e) => {
     e.preventDefault();
     if (
@@ -55,6 +62,29 @@ const HomePage = () => {
       return;
     } else {
       setLoading(true);
+      addDoc(collectionRef, {
+        cName: candidateData.cName,
+        interviewBy: candidateData.interviewBy,
+        jobProfile: candidateData.jobProfile,
+        workEx: candidateData.workEx,
+        relWorkEx: candidateData.relWorkEx,
+        date: candidateData.date,
+        time: candidateData.time,
+        communicationRating: candidateData.communicationRating,
+        technicalRating: candidateData.technicalRating,
+        analyticalRating: candidateData.analyticalRating,
+        overallRating: candidateData.overallRating,
+        recommendedForNextRound: candidateData.recommendedForNextRound,
+        strenghts: candidateData.strenghts,
+        weakness: candidateData.weakness,
+        comments: candidateData.comments,
+      })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
       setTimeout(() => {
         setLoading(false);
         Toastify({
@@ -68,7 +98,7 @@ const HomePage = () => {
           stopOnFocus: true,
         }).showToast();
         setCandidateData(initialState);
-      }, 2000);
+      }, 1000);
       console.log(candidateData);
     }
   };
@@ -97,7 +127,6 @@ const HomePage = () => {
           width="60px"
         />
       )}
-
       <p className={styles.head}>Evaluation form</p>
       <form action="" className={styles.form}>
         <div className={styles.inputBox}>
@@ -309,9 +338,9 @@ const HomePage = () => {
             </option>
             <option value="Not at all">Not at all</option>
             <option value="No">No</option>
-            <option value="may be">may be</option>
-            <option value="recommended">recommended</option>
-            <option value="Recommended for sure">Recommended for sure</option>
+            <option value="May be">may be</option>
+            <option value="Sure">recommended</option>
+            <option value="For sure">Recommended for sure</option>
           </select>
         </div>
         <div className={styles.inputBox}>
@@ -356,7 +385,6 @@ const HomePage = () => {
             }}
           ></textarea>
         </div>
-
         <div className={styles.btn}>
           <button onClick={submitHandler} className={styles.submit}>
             Submit

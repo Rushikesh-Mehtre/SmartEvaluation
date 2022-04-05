@@ -4,6 +4,14 @@
     flex-direction: column;
     // align-items: flex-start;
     // border: 1px solid black;
+    .loadingImg{
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        height: 60px;
+        width: 60px;
+    }
     .header{
         display: flex;
         justify-content: space-between;
@@ -15,13 +23,30 @@
             font-weight: 500;
         }
         div{
+            display: flex;
+            align-items: center;
+            // gap: 20px;
             label{
                 font-weight: 500;
                 margin-right: 10px;
             }
             input{
-                height: 25px;
+                height: 30px;
                 cursor: pointer;
+            }
+            .refreshIcon{
+                margin-left: 20px;
+                height: 30px;
+                font-size: 20px;
+                padding: 3px 10px;
+                cursor: pointer;
+                color: #2b6777;
+            border: 1px solid #87a8b1;
+            padding: 2px 15px;
+            &:hover{
+            background-color: #2b6777;;
+            color: white;
+            }
             }
         }
     }
@@ -30,6 +55,10 @@
     .reviewPage{
         padding: 20px;
         padding-top: 100px;
+        .loadingImg{
+            height: 40px;
+            width: 40px;
+        }
 
         .header{
             flex-direction: column;

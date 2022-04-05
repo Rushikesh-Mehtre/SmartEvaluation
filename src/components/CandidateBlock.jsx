@@ -31,18 +31,19 @@ const CandidateBlock = (props) => {
           </strong>
         </p>
         <p>
-          Overall performence :<strong>{props.rating}</strong>{" "}
+          Recommended for next round :
+          <strong> {props.recommendedForNextRound}</strong>{" "}
         </p>
       </div>
       <div className={styles.actions}>
-        <span>
-          <AiFillEye className={styles.icon} onClick={viewHandler} />
+        <span onClick={viewHandler}>
+          <AiFillEye className={styles.icon} />
         </span>
-        <span>
-          <AiFillEdit className={styles.icon} onClick={editHandler} />
+        <span onClick={editHandler}>
+          <AiFillEdit className={styles.icon} />
         </span>
-        <span>
-          <DeleteModal id={id} />
+        <span className={styles.deleteModal}>
+          <DeleteModal id={id} onClick={props.onClick} name={props.cName} />
           {/* <AiFillDelete className={styles.icon} onClick={deleteHandler} /> */}
         </span>
       </div>

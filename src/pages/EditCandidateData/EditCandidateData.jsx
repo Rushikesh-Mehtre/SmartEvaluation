@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styles from "./EditCandidateData.module.scss";
 import { FaSave } from "react-icons/fa";
@@ -7,27 +7,68 @@ import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
 import "react-toastify/dist/ReactToastify.css";
 import loadingImg from "../../assets/images/loading.gif";
+import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
+import { database } from "../../firebaseConfig";
+const initialState = [
+  {
+    analyticalRating: "",
+    cName: "",
+    comments: "",
+    communicationRating: "",
+    currentCTC: "",
+    date: "",
+    email: "",
+    expectedCTC: "",
+    id: "",
+    interviewBy: "",
+    jobProfile: "",
+    mobile: "",
+    noticePeriod: "",
+    overallRating: "",
+    preferredLocation: "",
+    recommendedForNextRound: "",
+    relWorkEx: "",
+    strenghts: "",
+    technicalRating: "",
+    time: "",
+    weakness: "",
+    workEx: "",
+  },
+];
 const EditCandidateData = () => {
   const params = useParams();
+
+  const collectionRef = collection(database, "candidates");
+  const [candidateData, setCandidateData] = useState(initialState);
+  console.log(candidateData);
+  useEffect(() => {
+    setShowLoading(true);
+    getDocs(collectionRef)
+      .then((response) => {
+        setCandidateData(
+          response.docs
+            .map((item) => {
+              return { ...item.data(), id: item.id };
+            })
+            .filter((item) => {
+              return item.id === params.candidateId;
+            })
+        );
+        console.log(
+          response.docs
+            .map((item) => {
+              return { ...item.data(), id: item.id };
+            })
+            .filter((item) => {
+              return item.id === params.candidateId;
+            })
+        );
+      })
+      .catch((error) => console.log(error));
+    setShowLoading(false);
+  }, [collectionRef, params.candidateId]);
   const navigate = useNavigate();
   const [showLoading, setShowLoading] = useState(false);
-  const candidateData = {
-    cName: "Rushikesh Mehtre",
-    interviewBy: "Rushikesh Mehtre",
-    jobProfile: "ReactJS",
-    workEx: "0.5",
-    relWorkEx: "0.5",
-    date: "04/01/2022",
-    time: "16.30PM",
-    communicationRating: "",
-    technicalRating: "good",
-    analyticalRating: "good",
-    overallRating: "good",
-    recommendedForNextRound: "for sure",
-    strenghts: "Good communication skills",
-    weakness: "Didn't find any",
-    comments: "No comments",
-  };
   const [newData, setNewData] = useState({
     currentCTC: "",
     expectedCTC: "",
@@ -38,8 +79,37 @@ const EditCandidateData = () => {
   });
   const [finalData, setFinalData] = useState({});
   console.log(finalData);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+
+    if (candidateData[0].currentCTC) {
+      Toastify({
+        text: "Data is already up to date",
+        duration: 2000,
+        newWindow: true,
+        close: false,
+        gravity: "top",
+        position: "center",
+        backgroundColor: "#2b6777",
+        stopOnFocus: true,
+      }).showToast();
+    }
+  });
   const updateHandler = (e) => {
     e.preventDefault();
+    if (candidateData[0].currentCTC) {
+      Toastify({
+        text: "Data is updated already",
+        duration: 2000,
+        newWindow: true,
+        close: false,
+        gravity: "top",
+        position: "center",
+        backgroundColor: "#2b6777",
+        stopOnFocus: true,
+      }).showToast();
+      return;
+    }
     if (
       !newData.currentCTC ||
       !newData.expectedCTC ||
@@ -63,6 +133,17 @@ const EditCandidateData = () => {
       setShowLoading(true);
       setTimeout(() => {
         setShowLoading(false);
+        const docToUpdate = doc(database, "candidates", params.candidateId);
+        updateDoc(docToUpdate, {
+          currentCTC: newData.currentCTC,
+          expectedCTC: newData.expectedCTC,
+          noticePeriod: newData.noticePeriod,
+          mobile: newData.mobile,
+          email: newData.email,
+          preferredLocation: newData.preferredLocation,
+        })
+          .then((response) => console.log(response))
+          .catch((err) => console.log(err));
         Toastify({
           text: "Information updated successfully",
           duration: 2000,
@@ -73,12 +154,12 @@ const EditCandidateData = () => {
           backgroundColor: "#2b6777",
           stopOnFocus: true,
         }).showToast();
-      }, 2000);
+        navigate("/reviews");
+      }, 1000);
       setFinalData({ ...candidateData, ...newData });
       console.log(finalData);
     }
   };
-
   const gobackHandler = () => {
     navigate("/reviews");
   };
@@ -99,11 +180,11 @@ const EditCandidateData = () => {
           id : {params.candidateId})
         </p>
         <div className={styles.icons}>
-          <span>
-            <FaSave onClick={updateHandler} />
+          <span className={styles.icon} onClick={updateHandler}>
+            <FaSave />
           </span>
-          <span>
-            <RiArrowGoBackFill onClick={gobackHandler} />
+          <span className={styles.icon} onClick={gobackHandler}>
+            <RiArrowGoBackFill />
           </span>
         </div>
       </div>
@@ -113,7 +194,7 @@ const EditCandidateData = () => {
           <input
             type="text"
             placeholder="Candidate's  name"
-            value={candidateData.cName}
+            value={candidateData[0].cName}
             readOnly
           />
         </div>
@@ -122,7 +203,7 @@ const EditCandidateData = () => {
           <input
             type="text"
             placeholder="Interviewed by (can be more than one)"
-            value={candidateData.interviewBy}
+            value={candidateData[0].interviewBy}
             readOnly
           />
         </div>
@@ -131,7 +212,7 @@ const EditCandidateData = () => {
           <input
             type="text"
             placeholder="Job profile"
-            value={candidateData.jobProfile}
+            value={candidateData[0].jobProfile}
             readOnly
           />
         </div>
@@ -140,7 +221,7 @@ const EditCandidateData = () => {
           <input
             type="number"
             placeholder="Work experience"
-            value={candidateData.workEx}
+            value={candidateData[0].workEx}
             readOnly
           />
         </div>
@@ -149,7 +230,7 @@ const EditCandidateData = () => {
           <input
             type="number"
             placeholder="Relevant work experience"
-            value={candidateData.relWorkEx}
+            value={candidateData[0].relWorkEx}
             readOnly
           />
         </div>
@@ -160,7 +241,7 @@ const EditCandidateData = () => {
             name=""
             id=""
             placeholder="date of interview"
-            value={candidateData.date}
+            value={candidateData[0].date}
             readOnly
           />
         </div>
@@ -171,7 +252,7 @@ const EditCandidateData = () => {
             name=""
             id=""
             placeholder="time of interview"
-            value={candidateData.time}
+            value={candidateData[0].time}
             readOnly
           />
         </div>
@@ -180,7 +261,7 @@ const EditCandidateData = () => {
           <select
             name=""
             id=""
-            value={candidateData.communicationRating}
+            value={candidateData[0].communicationRating}
             readOnly
           >
             <option value="" disabled>
@@ -189,7 +270,7 @@ const EditCandidateData = () => {
             <option value="Bad">Bad</option>
             <option value="Poor">Poor</option>
             <option value="Below Average">Below Average</option>
-            <option value="Avergae">Avergae</option>
+            <option value="Average">Average</option>
             <option value="Above Average">Above Average</option>
             <option value="Good">Good</option>
             <option value="Very good">Very good</option>
@@ -198,14 +279,19 @@ const EditCandidateData = () => {
         </div>
         <div className={styles.inputBox}>
           <label htmlFor="">Technical skills rating</label>
-          <select name="" id="" value={candidateData.technicalRating} readOnly>
+          <select
+            name=""
+            id=""
+            value={candidateData[0].technicalRating}
+            readOnly
+          >
             <option value="" disabled>
               Select rating{" "}
             </option>
             <option value="Bad">Bad</option>
             <option value="Poor">Poor</option>
             <option value="Below Average">Below Average</option>
-            <option value="Avergae">Avergae</option>
+            <option value="Average">Average</option>
             <option value="Above Average">Above Average</option>
             <option value="Good">Good</option>
             <option value="Very good">Very good</option>
@@ -214,14 +300,19 @@ const EditCandidateData = () => {
         </div>
         <div className={styles.inputBox}>
           <label htmlFor="">Analytical skills rating</label>
-          <select name="" id="" value={candidateData.analyticalRating} readOnly>
+          <select
+            name=""
+            id=""
+            value={candidateData[0].analyticalRating}
+            readOnly
+          >
             <option value="" disabled>
               Select rating{" "}
             </option>
             <option value="Bad">Bad</option>
             <option value="Poor">Poor</option>
             <option value="Below Average">Below Average</option>
-            <option value="Avergae">Avergae</option>
+            <option value="Average">Average</option>
             <option value="Above Average">Above Average</option>
             <option value="Good">Good</option>
             <option value="Very good">Very good</option>
@@ -230,7 +321,7 @@ const EditCandidateData = () => {
         </div>
         <div className={styles.inputBox}>
           <label htmlFor="">Overall perfomence wrt experience</label>
-          <select name="" id="" value={candidateData.overallRating} readOnly>
+          <select name="" id="" value={candidateData[0].overallRating} readOnly>
             <option value="" disabled>
               Select rating{" "}
             </option>
@@ -249,7 +340,7 @@ const EditCandidateData = () => {
           <select
             name=""
             id=""
-            value={candidateData.recommendedForNextRound}
+            value={candidateData[0].recommendedForNextRound}
             readOnly
           >
             <option value="" disabled>
@@ -270,7 +361,7 @@ const EditCandidateData = () => {
             cols="30"
             rows="5"
             placeholder="Candidate's Strengths"
-            value={candidateData.strenghts}
+            value={candidateData[0].strenghts}
             readOnly
           ></textarea>
         </div>
@@ -282,7 +373,7 @@ const EditCandidateData = () => {
             cols="30"
             rows="5"
             placeholder="Candidate's Weakness"
-            value={candidateData.weakness}
+            value={candidateData[0].weakness}
             readOnly
           ></textarea>
         </div>
@@ -294,27 +385,35 @@ const EditCandidateData = () => {
             cols="30"
             rows="5"
             placeholder="Comments"
-            value={candidateData.comments}
+            value={candidateData[0].comments}
             readOnly
           ></textarea>
         </div>
         <div className={styles.inputBox}>
-          <label htmlFor="">Current CTC</label>
+          <label htmlFor="">Current CTC (LPA)</label>
           <input
             type="number"
             placeholder="Current CTC"
-            value={newData.currentCTC}
+            value={
+              candidateData[0].currentCTC
+                ? candidateData[0].currentCTC
+                : newData.currentCTC
+            }
             onChange={(e) =>
               setNewData({ ...newData, currentCTC: e.target.value })
             }
           />
         </div>
         <div className={styles.inputBox}>
-          <label htmlFor="">Expected CTC</label>
+          <label htmlFor="">Expected CTC (LPA)</label>
           <input
             type="number"
             placeholder="Expected CTC"
-            value={newData.expectedCTC}
+            value={
+              candidateData[0].expectedCTC
+                ? candidateData[0].expectedCTC
+                : newData.expectedCTC
+            }
             onChange={(e) =>
               setNewData({ ...newData, expectedCTC: e.target.value })
             }
@@ -325,7 +424,11 @@ const EditCandidateData = () => {
           <select
             name=""
             id=""
-            value={newData.noticePeriod}
+            value={
+              candidateData[0].noticePeriod
+                ? candidateData[0].noticePeriod
+                : newData.noticePeriod
+            }
             onChange={(e) =>
               setNewData({ ...newData, noticePeriod: e.target.value })
             }
@@ -344,9 +447,17 @@ const EditCandidateData = () => {
         <div className={styles.inputBox}>
           <label htmlFor="">Mobile Number</label>
           <input
-            type="number"
+            type="text"
+            maxLength="10"
+            onKeyPress={(event) => {
+              if (!/[0-9]/.test(event.key)) {
+                event.preventDefault();
+              }
+            }}
             placeholder="Mobile Number"
-            value={newData.mobile}
+            value={
+              candidateData[0].mobile ? candidateData[0].mobile : newData.mobile
+            }
             onChange={(e) => setNewData({ ...newData, mobile: e.target.value })}
           />
         </div>
@@ -355,7 +466,9 @@ const EditCandidateData = () => {
           <input
             type="email"
             placeholder="Email ID"
-            value={newData.email}
+            value={
+              candidateData[0].email ? candidateData[0].email : newData.email
+            }
             onChange={(e) => setNewData({ ...newData, email: e.target.value })}
           />
         </div>
@@ -364,7 +477,11 @@ const EditCandidateData = () => {
           <input
             type="text"
             placeholder="Preferred location"
-            value={newData.preferredLocation}
+            value={
+              candidateData[0].preferredLocation
+                ? candidateData[0].preferredLocation
+                : newData.preferredLocation
+            }
             onChange={(e) =>
               setNewData({ ...newData, preferredLocation: e.target.value })
             }

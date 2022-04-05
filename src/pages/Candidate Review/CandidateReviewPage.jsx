@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styles from "./CandidateReviewPage.module.scss";
 import { FiDownload } from "react-icons/fi";
@@ -7,8 +7,73 @@ import jsPDF from "jspdf";
 import { AiFillEdit } from "react-icons/ai";
 import { RiArrowGoBackFill } from "react-icons/ri";
 import DeleteModal from "../../components/DeleteModal";
-
+import { collection, getDocs } from "firebase/firestore";
+import { database } from "../../firebaseConfig";
+import loadingImg from "../../assets/images/loading.gif";
+const initialState = [
+  {
+    analyticalRating: "",
+    cName: "",
+    comments: "",
+    communicationRating: "",
+    currentCTC: "",
+    date: "",
+    email: "",
+    expectedCTC: "",
+    id: "",
+    interviewBy: "",
+    jobProfile: "",
+    mobile: "",
+    noticePeriod: "",
+    overallRating: "",
+    preferredLocation: "",
+    recommendedForNextRound: "",
+    relWorkEx: "",
+    strenghts: "",
+    technicalRating: "",
+    time: "",
+    weakness: "",
+    workEx: "",
+  },
+];
 const CandidateReviewPage = () => {
+  const params = useParams();
+
+  const [loading, setLoading] = useState(true);
+  const collectionRef = collection(database, "candidates");
+  const [candidateData, setCandidateData] = useState(initialState);
+  const [deleted, setDeleted] = useState(false);
+  const deleteHandler = () => {
+    setDeleted(true);
+  };
+  console.log(candidateData);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    setLoading(true);
+    getDocs(collectionRef)
+      .then((response) => {
+        setCandidateData(
+          response.docs
+            .map((item) => {
+              return { ...item.data(), id: item.id };
+            })
+            .filter((item) => {
+              return item.id === params.candidateId;
+            })
+        );
+        console.log(
+          response.docs
+            .map((item) => {
+              return { ...item.data(), id: item.id };
+            })
+            .filter((item) => {
+              return item.id === params.candidateId;
+            })
+        );
+      })
+      .catch((error) => console.log(error));
+    setLoading(false);
+  }, [deleted, collectionRef, params.candidateId]);
   const navigate = useNavigate();
   const downloadPdfDocument = () => {
     const input = document.getElementById("report");
@@ -16,10 +81,9 @@ const CandidateReviewPage = () => {
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF();
       pdf.addImage(imgData, "JPEG", 0, 0);
-      pdf.save(`Rushikesh_Mehtre_Evaluation_Report.pdf`);
+      pdf.save(`${candidateData[0].cName}_Evaluation_Report.pdf`);
     });
   };
-  const params = useParams();
   const editHandler = () => {
     navigate(`/edit-candidate-report/${params.candidateId}`);
   };
@@ -30,28 +94,28 @@ const CandidateReviewPage = () => {
 
   return (
     <div className={styles.candidateReviewPage}>
+      {loading && <img src={loadingImg} className={styles.loadingImg} alt="" />}
       <div className={styles.topHeader}>
-        <span>
-          <AiFillEdit onClick={editHandler} />{" "}
+        <span onClick={editHandler}>
+          <AiFillEdit />{" "}
         </span>
-        <span>
-          <DeleteModal id={params.candidateId} />
+        <span onClick={deleteHandler} className={styles.deleteModal}>
+          <DeleteModal id={params.candidateId} name={candidateData[0].cName} />
         </span>
 
-        <span>
-          <FiDownload
-            className={styles.downloadIcon}
-            onClick={downloadPdfDocument}
-          />
+        <span onClick={downloadPdfDocument}>
+          <FiDownload className={styles.downloadIcon} />
         </span>
-        <span>
-          <RiArrowGoBackFill onClick={goBackHandler} />
+        <span onClick={goBackHandler}>
+          <RiArrowGoBackFill />
         </span>
       </div>
+
       <div id="report">
         <div className={styles.header}>
           <h2 className={styles.head}>
-            Evaluation report for (Candidate Id : {params.candidateId}){" "}
+            Evaluation report for <strong>{candidateData[0].cName}</strong>{" "}
+            (Candidate Id : {params.candidateId}){" "}
           </h2>
         </div>
         <div className={styles.reportData}>
@@ -60,62 +124,62 @@ const CandidateReviewPage = () => {
               <span>
                 <strong>Candidate Name : </strong>
               </span>
-              <span>Rushikesh Mehtre</span>{" "}
+              <span>{candidateData[0].cName}</span>{" "}
             </p>
             <p>
               <span>
                 <strong>Job Profile : </strong>
               </span>
-              <span>ReactJS </span>
+              <span>{candidateData[0].jobProfile} </span>
             </p>
             <p>
               <span>
                 <strong>Experience : </strong>
               </span>
-              <span>0.5 years</span>{" "}
+              <span>{candidateData[0].workEx}</span>{" "}
             </p>
             <p>
               <span>
                 {" "}
                 <strong>Relevant Experience : </strong>
               </span>
-              <span>0.5 years</span>{" "}
+              <span>{candidateData[0].relWorkEx}</span>{" "}
             </p>
             <p>
               <span>
-                <strong>Current CTC : </strong>
+                <strong>Current CTC (LPA) : </strong>
               </span>
-              <span>3.6LPA</span>{" "}
+              <span>{candidateData[0].currentCTC}</span>{" "}
             </p>
             <p>
               <span>
-                <strong>Expected CTC : </strong>
+                <strong>Expected CTC (LPA) : </strong>
               </span>
-              <span>6.5LPA</span>{" "}
+              <span>{candidateData[0].expectedCTC}</span>{" "}
             </p>
             <p>
               <span>
                 <strong>Notice Period : </strong>
               </span>
-              <span>45 days</span>{" "}
+              <span>{candidateData[0].noticePeriod}</span>{" "}
             </p>
             <p>
               <span>
                 <strong>Mobile Number : </strong>
               </span>
-              <span>7303133973</span>{" "}
+              <span>{candidateData[0].mobile}</span>{" "}
             </p>
             <p>
               <span>
                 <strong>Email id : </strong>
               </span>
-              <span>rsmrsm5952@gmail.com</span>{" "}
+              <span>{candidateData[0].email}</span>{" "}
             </p>
             <p>
               <span>
                 <strong>Preferred Location : </strong>
               </span>
-              <span>Pune</span>{" "}
+              <span>{candidateData[0].preferredLocation}</span>{" "}
             </p>
           </div>
           <div className={styles.right}>
@@ -123,43 +187,45 @@ const CandidateReviewPage = () => {
               <span>
                 <strong>Interviewed by : </strong>
               </span>
-              <span>Rushikesh Mehtre</span>{" "}
+              <span>{candidateData[0].interviewBy}</span>{" "}
             </p>
             <p>
               <span>
                 <strong>Interview slot : </strong>
               </span>
-              <span>01/04/2022 | 16.30PM</span>{" "}
+              <span>
+                {candidateData[0].date} | {candidateData[0].time}
+              </span>{" "}
             </p>
             <p>
               <span>
                 <strong>Communication skills : </strong>
               </span>
-              <span>good</span>{" "}
+              <span>{candidateData[0].communicationRating}</span>{" "}
             </p>
             <p>
               <span>
                 <strong>Technical skills : </strong>
               </span>
-              <span>good</span>{" "}
+              <span>{candidateData[0].technicalRating}</span>{" "}
             </p>
             <p>
               <span>
                 <strong>Analaytical skills : </strong>
               </span>
-              <span>good</span>{" "}
+              <span>{candidateData[0].analyticalRating}</span>{" "}
             </p>
             <p>
               <span>
                 <strong>Overall Performence : </strong>
               </span>
-              <span>good</span>{" "}
+              <span>{candidateData[0].overallRating}</span>{" "}
             </p>
             <p>
               <span>
                 <strong>Recommended for next round: </strong>
               </span>
-              <span>yes</span>{" "}
+              <span>{candidateData[0].recommendedForNextRound}</span>{" "}
             </p>
 
             <p>
@@ -167,23 +233,19 @@ const CandidateReviewPage = () => {
                 {" "}
                 <strong>Strengths : </strong>
               </span>
-              <span>good communication skils</span>
+              <span>{candidateData[0].strenghts}</span>
             </p>
             <p>
               <span>
                 <strong>Weakness : </strong>
               </span>
-              <span>Didn't find any</span>
+              <span>{candidateData[0].weakness}</span>
             </p>
             <p>
               <span>
                 <strong>Other Comments :</strong>
               </span>
-              <span>
-                {" "}
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae
-                blanditiis .
-              </span>{" "}
+              <span> {candidateData[0].comments}</span>{" "}
             </p>
           </div>
         </div>

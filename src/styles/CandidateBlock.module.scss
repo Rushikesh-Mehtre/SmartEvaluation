@@ -20,11 +20,24 @@
         justify-content: flex-end;
         align-items: center;
         gap: 20px;
-        .icon{
-           
+        span{
             cursor: pointer;
             font-size: 20px;
             color: #2b6777;
+            border: 1px solid #87a8b1;
+            padding: 2px 15px;
+            &.deleteModal{
+                border: none;
+                padding: 0px;
+                &:hover{
+                    background-color: none;
+                    color: none;
+                }
+            }
+            &:hover{
+            background-color: #2b6777;;
+            color: white;
+            }       
         }
     }
 }
