@@ -116,10 +116,12 @@ const CandidateReviewPage = () => {
 
       <div id="report">
         <div className={styles.header}>
-          <h2 className={styles.head}>
-            Evaluation report for <strong>{candidateData[0].cName}</strong>{" "}
-            (Candidate Id : {params.candidateId}){" "}
-          </h2>
+          <p className={styles.head}>
+            <span>
+              Evaluation report for <strong>{candidateData[0].cName}</strong>{" "}
+            </span>
+            <span>(Candidate Id : {params.candidateId}) </span>
+          </p>
         </div>
         <div className={styles.reportData}>
           <div className={styles.left}>
