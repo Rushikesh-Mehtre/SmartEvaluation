@@ -7,7 +7,7 @@ import DeleteModal from "./DeleteModal";
 const CandidateBlock = (props) => {
   const navigate = useNavigate();
   const id = props.id;
-  console.log(id);
+  // console.log(id);
   const viewHandler = () => {
     navigate(`/candidate-report/${id}`);
   };

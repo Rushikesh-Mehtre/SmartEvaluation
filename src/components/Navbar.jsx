@@ -9,7 +9,7 @@ import { ImCross } from "react-icons/im";
 const Navbar = () => {
   const role = localStorage.getItem("role");
   const [showItems, setShowItems] = useState(true);
-  console.log(role);
+  // console.log(role);
   const mql = window.matchMedia("(max-width: 600px)");
   useEffect(() => {
     if (mql.matches) {

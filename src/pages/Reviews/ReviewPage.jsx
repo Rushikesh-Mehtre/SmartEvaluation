@@ -9,59 +9,63 @@ import { BiRefresh } from "react-icons/bi";
 const ReviewPage = () => {
   const [refresh, setRefresh] = useState(false);
   const [date, setDate] = useState();
-  console.log(date);
+  // console.log(date);
   const collectionRef = collection(database, "candidates");
   const [loading, setLoading] = useState(true);
   // setLoading(true);
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    setLoading(true);
-    if (date) {
+  useEffect(
+    () => {
+      // window.scrollTo(0, 0);
+      setLoading(true);
+      if (date) {
+        setTimeout(() => {
+          getDocs(collectionRef)
+            .then((response) => {
+              setCandidateData(
+                response.docs
+                  .map((item) => {
+                    return { ...item.data(), id: item.id };
+                  })
+                  .filter((item) => {
+                    return item.date === date;
+                  })
+              );
+              // console.log(
+              //   response.docs
+              //     .map((item) => {
+              //       return { ...item.data(), id: item.id };
+              //     })
+              //     .filter((item) => {
+              //       return item.date === date;
+              //     })
+              // );
+            })
+            .catch((error) => console.log(error));
+          setLoading(false);
+        }, 1000);
+        return;
+      }
+      getDocs(collectionRef)
+        .then((response) => {
+          setCandidateData(
+            response.docs.map((item) => {
+              return { ...item.data(), id: item.id };
+            })
+          );
+          // console.log(
+          //   response.docs.map((item) => {
+          //     return { ...item.data(), id: item.id };
+          //   })
+          // );
+        })
+        .catch((error) => console.log(error));
       setTimeout(() => {
-        getDocs(collectionRef)
-          .then((response) => {
-            setCandidateData(
-              response.docs
-                .map((item) => {
-                  return { ...item.data(), id: item.id };
-                })
-                .filter((item) => {
-                  return item.date === date;
-                })
-            );
-            console.log(
-              response.docs
-                .map((item) => {
-                  return { ...item.data(), id: item.id };
-                })
-                .filter((item) => {
-                  return item.date === date;
-                })
-            );
-          })
-          .catch((error) => console.log(error));
         setLoading(false);
       }, 1000);
-      return;
-    }
-    getDocs(collectionRef)
-      .then((response) => {
-        setCandidateData(
-          response.docs.map((item) => {
-            return { ...item.data(), id: item.id };
-          })
-        );
-        console.log(
-          response.docs.map((item) => {
-            return { ...item.data(), id: item.id };
-          })
-        );
-      })
-      .catch((error) => console.log(error));
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-  }, [refresh]);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [refresh]
+  );
   const [candidateData, setCandidateData] = useState([]);
   const refreshHandler = () => {
     setLoading(true);
@@ -73,11 +77,11 @@ const ReviewPage = () => {
               return { ...item.data(), id: item.id };
             })
           );
-          console.log(
-            response.docs.map((item) => {
-              return { ...item.data(), id: item.id };
-            })
-          );
+          // console.log(
+          //   response.docs.map((item) => {
+          //     return { ...item.data(), id: item.id };
+          //   })
+          // );
         })
         .catch((error) => console.log(error));
       setLoading(false);
@@ -87,11 +91,11 @@ const ReviewPage = () => {
   };
   const deleteHandler = () => {
     console.log("delete handler called");
-    setRefresh((prev) => !prev);
+    // setRefresh((prev) => !prev);
   };
   const dateFilterHandler = (e) => {
     setDate(e.target.value);
-    console.log(e.target.value);
+    // console.log(e.target.value);
   };
   return (
     <div className={styles.reviewPage}>

@@ -37,36 +37,42 @@ const initialState = [
 ];
 const EditCandidateData = () => {
   const params = useParams();
-
   const collectionRef = collection(database, "candidates");
   const [candidateData, setCandidateData] = useState(initialState);
-  console.log(candidateData);
-  useEffect(() => {
-    setShowLoading(true);
-    getDocs(collectionRef)
-      .then((response) => {
-        setCandidateData(
-          response.docs
-            .map((item) => {
-              return { ...item.data(), id: item.id };
-            })
-            .filter((item) => {
-              return item.id === params.candidateId;
-            })
-        );
-        console.log(
-          response.docs
-            .map((item) => {
-              return { ...item.data(), id: item.id };
-            })
-            .filter((item) => {
-              return item.id === params.candidateId;
-            })
-        );
-      })
-      .catch((error) => console.log(error));
-    setShowLoading(false);
-  }, [collectionRef, params.candidateId]);
+  // console.log(candidateData);
+  if (candidateData[0].currentCTC) {
+    Toastify({
+      text: "Data is already up to date",
+      duration: 2000,
+      newWindow: true,
+      close: false,
+      gravity: "top",
+      position: "center",
+      backgroundColor: "#2b6777",
+      stopOnFocus: true,
+    }).showToast();
+    console.log("already upto date");
+  }
+  useEffect(
+    () => {
+      // setShowLoading(true);
+      getDocs(collectionRef)
+        .then((response) => {
+          setCandidateData(
+            response.docs
+              .map((item) => {
+                return { ...item.data(), id: item.id };
+              })
+              .filter((item) => {
+                return item.id === params.candidateId;
+              })
+          );
+        })
+        .catch((error) => console.log(error));
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
   const navigate = useNavigate();
   const [showLoading, setShowLoading] = useState(false);
   const [newData, setNewData] = useState({
@@ -78,23 +84,6 @@ const EditCandidateData = () => {
     noticePeriod: "",
   });
   const [finalData, setFinalData] = useState({});
-  console.log(finalData);
-  useEffect(() => {
-    window.scrollTo(0, 0);
-
-    if (candidateData[0].currentCTC) {
-      Toastify({
-        text: "Data is already up to date",
-        duration: 2000,
-        newWindow: true,
-        close: false,
-        gravity: "top",
-        position: "center",
-        backgroundColor: "#2b6777",
-        stopOnFocus: true,
-      }).showToast();
-    }
-  });
   const updateHandler = (e) => {
     e.preventDefault();
     if (candidateData[0].currentCTC) {

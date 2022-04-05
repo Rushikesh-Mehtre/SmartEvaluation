@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./HomePage.module.scss";
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
@@ -28,9 +28,6 @@ const HomePage = () => {
   const collectionRef = collection(database, "candidates");
   const [loading, setLoading] = useState(false);
   const [candidateData, setCandidateData] = useState(initialState);
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
   const submitHandler = (e) => {
     e.preventDefault();
     if (

@@ -38,42 +38,45 @@ const initialState = [
 ];
 const CandidateReviewPage = () => {
   const params = useParams();
-
   const [loading, setLoading] = useState(true);
   const collectionRef = collection(database, "candidates");
   const [candidateData, setCandidateData] = useState(initialState);
   const [deleted, setDeleted] = useState(false);
   const deleteHandler = () => {
     setDeleted(true);
+    console.log("something");
   };
   console.log(candidateData);
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    setLoading(true);
-    getDocs(collectionRef)
-      .then((response) => {
-        setCandidateData(
-          response.docs
-            .map((item) => {
-              return { ...item.data(), id: item.id };
-            })
-            .filter((item) => {
-              return item.id === params.candidateId;
-            })
-        );
-        console.log(
-          response.docs
-            .map((item) => {
-              return { ...item.data(), id: item.id };
-            })
-            .filter((item) => {
-              return item.id === params.candidateId;
-            })
-        );
-      })
-      .catch((error) => console.log(error));
-    setLoading(false);
-  }, [deleted]);
+  useEffect(
+    () => {
+      setLoading(true);
+      getDocs(collectionRef)
+        .then((response) => {
+          setCandidateData(
+            response.docs
+              .map((item) => {
+                return { ...item.data(), id: item.id };
+              })
+              .filter((item) => {
+                return item.id === params.candidateId;
+              })
+          );
+          console.log(
+            response.docs
+              .map((item) => {
+                return { ...item.data(), id: item.id };
+              })
+              .filter((item) => {
+                return item.id === params.candidateId;
+              })
+          );
+        })
+        .catch((error) => console.log(error));
+      setLoading(false);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [deleted]
+  );
   const navigate = useNavigate();
   const downloadPdfDocument = () => {
     const input = document.getElementById("report");
