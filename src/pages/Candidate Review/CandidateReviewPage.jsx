@@ -73,7 +73,7 @@ const CandidateReviewPage = () => {
       })
       .catch((error) => console.log(error));
     setLoading(false);
-  }, [deleted, collectionRef, params.candidateId]);
+  }, [deleted]);
   const navigate = useNavigate();
   const downloadPdfDocument = () => {
     const input = document.getElementById("report");

@@ -61,7 +61,7 @@ const ReviewPage = () => {
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-  }, [refresh, date, collectionRef]);
+  }, [refresh]);
   const [candidateData, setCandidateData] = useState([]);
   const refreshHandler = () => {
     setLoading(true);
