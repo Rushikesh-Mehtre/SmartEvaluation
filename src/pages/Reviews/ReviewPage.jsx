@@ -5,7 +5,6 @@ import { collection, getDocs } from "firebase/firestore";
 import { database } from "../../firebaseConfig";
 import loadingImg from "../../assets/images/loading.gif";
 import { BiRefresh } from "react-icons/bi";
-
 const ReviewPage = () => {
   const [refresh, setRefresh] = useState(false);
   const [date, setDate] = useState();
@@ -30,15 +29,6 @@ const ReviewPage = () => {
                     return item.date === date;
                   })
               );
-              // console.log(
-              //   response.docs
-              //     .map((item) => {
-              //       return { ...item.data(), id: item.id };
-              //     })
-              //     .filter((item) => {
-              //       return item.date === date;
-              //     })
-              // );
             })
             .catch((error) => console.log(error));
           setLoading(false);
@@ -52,11 +42,6 @@ const ReviewPage = () => {
               return { ...item.data(), id: item.id };
             })
           );
-          // console.log(
-          //   response.docs.map((item) => {
-          //     return { ...item.data(), id: item.id };
-          //   })
-          // );
         })
         .catch((error) => console.log(error));
       setTimeout(() => {
@@ -77,11 +62,6 @@ const ReviewPage = () => {
               return { ...item.data(), id: item.id };
             })
           );
-          // console.log(
-          //   response.docs.map((item) => {
-          //     return { ...item.data(), id: item.id };
-          //   })
-          // );
         })
         .catch((error) => console.log(error));
       setLoading(false);
@@ -91,7 +71,7 @@ const ReviewPage = () => {
   };
   const deleteHandler = () => {
     console.log("delete handler called");
-    // setRefresh((prev) => !prev);
+    setRefresh((prev) => !prev);
   };
   const dateFilterHandler = (e) => {
     setDate(e.target.value);
