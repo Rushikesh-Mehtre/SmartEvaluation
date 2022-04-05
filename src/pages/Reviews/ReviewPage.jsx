@@ -49,7 +49,7 @@ const ReviewPage = () => {
       }, 1000);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [refresh]
+    [refresh, date]
   );
   const [candidateData, setCandidateData] = useState([]);
   const refreshHandler = () => {
@@ -108,7 +108,9 @@ const ReviewPage = () => {
             );
           })
         ) : (
-          <p style={{ fontSize: "20px", marginTop: "20px" }}></p>
+          <p style={{ fontSize: "20px", marginTop: "20px" }}>
+            No data available
+          </p>
         )}
       </div>
     </div>
