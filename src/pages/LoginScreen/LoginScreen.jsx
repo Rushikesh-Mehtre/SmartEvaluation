@@ -20,7 +20,9 @@ const LoginScreen = () => {
 
   const loginHandler = (e) => {
     e.preventDefault();
-    setShowLoading(true);
+    if (user.email && user.password) {
+      setShowLoading(true);
+    }
 
     if (!user.email || !user.password) {
       Toastify({
