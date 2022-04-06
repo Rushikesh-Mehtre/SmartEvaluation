@@ -8,7 +8,8 @@ import "toastify-js/src/toastify.css";
 import "react-toastify/dist/ReactToastify.css";
 import loadingImg from "../../assets/images/loading.gif";
 import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
-import { database } from "../../firebaseConfig";
+import { database, storage } from "../../firebaseConfig";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 const initialState = [
   {
     analyticalRating: "",
@@ -40,22 +41,23 @@ const EditCandidateData = () => {
   const collectionRef = collection(database, "candidates");
   const [candidateData, setCandidateData] = useState(initialState);
   // console.log(candidateData);
-  if (candidateData[0].currentCTC) {
-    Toastify({
-      text: "Data is already up to date",
-      duration: 2000,
-      newWindow: true,
-      close: false,
-      gravity: "top",
-      position: "center",
-      backgroundColor: "#2b6777",
-      stopOnFocus: true,
-    }).showToast();
-    console.log("already upto date");
-  }
+
   useEffect(
     () => {
       // setShowLoading(true);
+      if (candidateData[0].currentCTC) {
+        Toastify({
+          text: "Data is already up to date",
+          duration: 2000,
+          newWindow: true,
+          close: false,
+          gravity: "top",
+          position: "center",
+          backgroundColor: "#2b6777",
+          stopOnFocus: true,
+        }).showToast();
+        console.log("already upto date");
+      }
       getDocs(collectionRef)
         .then((response) => {
           setCandidateData(
@@ -152,6 +154,53 @@ const EditCandidateData = () => {
   const gobackHandler = () => {
     navigate("/reviews");
   };
+  const [progressLoading, setProgressLoading] = useState(false);
+  // console.log(progress);
+  const [data, setData] = useState();
+  const [resumeUploadStatus, setResumeUploadStatus] = useState("Upload resume");
+  const resumeUploadHandler = (e) => {
+    e.preventDefault();
+    if (!data) {
+      Toastify({
+        text: "Select file to upload",
+        duration: 2000,
+        newWindow: true,
+        close: false,
+        gravity: "top",
+        position: "center",
+        backgroundColor: "#2b6777",
+        stopOnFocus: true,
+      }).showToast();
+      return;
+    }
+    setProgressLoading(true);
+    // const storage = getStorage();
+    const storageRef = ref(storage, data.name);
+    const uploadTask = uploadBytesResumable(storageRef, data);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        // Observe state change events such as progress, pause, and resume
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+      },
+      (error) => {
+        console.log(error.message);
+        // Handle unsuccessful uploads
+      },
+      () => {
+        setProgressLoading(false);
+        console.log("upload the resume");
+        setResumeUploadStatus("resume uploaded");
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          console.log("File available at", downloadURL);
+        });
+      }
+    );
+    console.log(data);
+  };
   return (
     <div className={styles.editCandidateData}>
       {showLoading && (
@@ -165,8 +214,8 @@ const EditCandidateData = () => {
       )}
       <div className={styles.header}>
         <p className={styles.head}>
-          Edit candidate evaluation report for {candidateData.cName} (Candidate
-          id : {params.candidateId})
+          Edit candidate evaluation report for {candidateData[0].cName}{" "}
+          (Candidate id : {params.candidateId})
         </p>
         <div className={styles.icons}>
           <span className={styles.icon} onClick={updateHandler}>
@@ -475,6 +524,47 @@ const EditCandidateData = () => {
               setNewData({ ...newData, preferredLocation: e.target.value })
             }
           />
+        </div>
+        <div className={styles.inputBox}>
+          <label htmlFor="">Resume</label>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <input
+              onChange={(e) => setData(e.target.files[0])}
+              readOnly={resumeUploadStatus === "resume uploaded"}
+              type="file"
+              style={{ width: "fit-content", position: "relative", top: "5px" }}
+            />
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              {progressLoading && (
+                <img src={loadingImg} height="30px" width="30px" alt="" />
+              )}
+              <button
+                disabled={resumeUploadStatus === "resume uploaded"}
+                onClick={resumeUploadHandler}
+                style={{
+                  padding: "8px 20px",
+                  cursor: "pointer",
+                  border: "1px solid gray",
+                  backgroundColor:
+                    resumeUploadStatus === "resume uploaded"
+                      ? "#2b6777"
+                      : "white",
+                  color:
+                    resumeUploadStatus === "resume uploaded"
+                      ? "white"
+                      : "black",
+                }}
+              >
+                {resumeUploadStatus}
+              </button>
+            </div>
+          </div>
         </div>
         <div className={styles.btns}>
           <button onClick={updateHandler} className={styles.updateButton}>
