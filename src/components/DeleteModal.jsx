@@ -46,21 +46,21 @@ const DeleteModal = (props) => {
     deleteDoc(docToDelete)
       .then((response) => {
         console.log(response);
-        props.onClick();
+        Toastify({
+          text: "Candidate information deleted",
+          duration: 2000,
+          newWindow: true,
+          close: false,
+          gravity: "top",
+          position: "center",
+          backgroundColor: "#2b6777",
+          stopOnFocus: true,
+        }).showToast();
+        setIsOpen(false);
         navigate("/reviews");
+        props.onClick();
       })
       .catch((error) => console.log(error));
-    Toastify({
-      text: "Candidate information deleted",
-      duration: 2000,
-      newWindow: true,
-      close: false,
-      gravity: "top",
-      position: "center",
-      backgroundColor: "#2b6777",
-      stopOnFocus: true,
-    }).showToast();
-    setIsOpen(false);
   };
   return (
     <div className={styles.deleteModal}>

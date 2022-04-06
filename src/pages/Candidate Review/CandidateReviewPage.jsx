@@ -38,6 +38,7 @@ const initialState = [
 ];
 const CandidateReviewPage = () => {
   const params = useParams();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const collectionRef = collection(database, "candidates");
   const [candidateData, setCandidateData] = useState(initialState);
@@ -45,6 +46,7 @@ const CandidateReviewPage = () => {
   const deleteHandler = () => {
     setDeleted(true);
     console.log("something");
+    // navigate("/reviews");
   };
   console.log(candidateData);
   useEffect(
@@ -77,7 +79,7 @@ const CandidateReviewPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [deleted]
   );
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const downloadPdfDocument = () => {
     const input = document.getElementById("report");
     html2canvas(input).then((canvas) => {
@@ -87,6 +89,7 @@ const CandidateReviewPage = () => {
       pdf.save(`${candidateData[0].cName}_Evaluation_Report.pdf`);
     });
   };
+
   const editHandler = () => {
     navigate(`/edit-candidate-report/${params.candidateId}`);
   };
@@ -113,8 +116,7 @@ const CandidateReviewPage = () => {
           <RiArrowGoBackFill />
         </span>
       </div>
-
-      <div id="report">
+      <div id="report" className={styles.report}>
         <div className={styles.header}>
           <p className={styles.head}>
             <span>
@@ -139,14 +141,14 @@ const CandidateReviewPage = () => {
             </p>
             <p>
               <span>
-                <strong>Experience : </strong>
+                <strong>Experience (in years) : </strong>
               </span>
               <span>{candidateData[0].workEx}</span>{" "}
             </p>
             <p>
               <span>
                 {" "}
-                <strong>Relevant Experience : </strong>
+                <strong>Relevant Experience (in years) : </strong>
               </span>
               <span>{candidateData[0].relWorkEx}</span>{" "}
             </p>

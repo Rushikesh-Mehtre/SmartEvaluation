@@ -8,7 +8,6 @@
     width: 70%;
     margin: auto;
     margin-top: 50px;
-    // align-items: flex-start;
     .loadingImg{
         position: fixed;
         top: 50%;
@@ -45,48 +44,51 @@
         }
         
     }
-    .header{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-        .head{
-            font-weight: normal;
-            font-size: 20px;
-            text-align: left;
-           
-        }
-        .downloadIcon{
-            font-size: 20px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-    }
-    .reportData{
-      
-        display: grid;
-        grid-template-columns: repeat(2,1fr);
-        .left{
-            border-right: 2px solid rgb(223, 214, 214);
-            padding-right: 10px;
-        }
-       
-        .left,.right{
-            // border: 1px solid black;
+    .report{
+        .header{
             display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            // padding: 10px;
-            p{
-               text-align: justify;
-                margin-bottom: 15px;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            .head{
+                font-weight: normal;
+                font-size: 20px;
+                text-align: left;
+               
+            }
+            .downloadIcon{
+                font-size: 20px;
+                font-weight: bold;
+                cursor: pointer;
+            }
+    
+        }
+        .reportData{
+          
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            .left{
+                border-right: 2px solid rgb(223, 214, 214);
+                padding-right: 10px;
+            }
+           
+            .left,.right{
+                // border: 1px solid black;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                // padding: 10px;
+                p{
+                   text-align: justify;
+                    margin-bottom: 15px;
+                }
+            }
+            .right{
+                padding-left: 20px;
             }
         }
-        .right{
-            padding-left: 20px;
-        }
     }
+   
 }
 @media screen and (max-width:900px) {
     .candidateReviewPage{
@@ -98,23 +100,26 @@
         width: 95%;
         margin-top: 0px;
         padding: 100px 20px 50px 20px;
-        .header{
-            .head{
- display: flex;
-            gap: 5px;
-            flex-direction: column;          
-          }
-            align-items: flex-start;
-        }
-        .reportData{
-            grid-template-columns: repeat(1,1fr);
-             .left{
-                 padding-right: 0px;
-                 border-right: none;
-             }
-            .right{
-                padding-left: 0px;
+        .report{
+            .header{
+                .head{
+                display: flex;
+                gap: 5px;
+                flex-direction: column;          
+              }
+                align-items: flex-start;
+            }
+            .reportData{
+                grid-template-columns: repeat(1,1fr);
+                 .left{
+                     padding-right: 0px;
+                     border-right: none;
+                 }
+                .right{
+                    padding-left: 0px;
+                }
             }
         }
+
     }
 }

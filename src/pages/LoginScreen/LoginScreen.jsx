@@ -20,6 +20,8 @@ const LoginScreen = () => {
 
   const loginHandler = (e) => {
     e.preventDefault();
+    setShowLoading(true);
+
     if (!user.email || !user.password) {
       Toastify({
         text: "Please fill all the details",
@@ -41,11 +43,10 @@ const LoginScreen = () => {
         console.log(userCredential);
         if (user.uid !== "h968rDJAA2OulnkX0mQeSJeBbrf2") {
           localStorage.setItem("role", "interviewer");
-          setShowLoading(true);
           setTimeout(() => {
             setShowLoading(false);
             Toastify({
-              text: "Logged in successfully as interviewer",
+              text: "Logged in as interviewer",
               duration: 2000,
               newWindow: true,
               close: false,
@@ -59,11 +60,10 @@ const LoginScreen = () => {
         } else {
           localStorage.setItem("role", "hr");
 
-          setShowLoading(true);
           setTimeout(() => {
             setShowLoading(false);
             Toastify({
-              text: "Logged in successfully as HR",
+              text: "Logged in as HR",
               duration: 2000,
               newWindow: true,
               close: false,

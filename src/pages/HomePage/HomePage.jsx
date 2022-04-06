@@ -94,7 +94,7 @@ const HomePage = () => {
           backgroundColor: "#2b6777",
           stopOnFocus: true,
         }).showToast();
-        setCandidateData(initialState);
+        // setCandidateData(initialState);
       }, 1000);
       console.log(candidateData);
     }
@@ -336,8 +336,8 @@ const HomePage = () => {
             <option value="Not at all">Not at all</option>
             <option value="No">No</option>
             <option value="May be">may be</option>
-            <option value="Sure">recommended</option>
-            <option value="For sure">Recommended for sure</option>
+            <option value="Sure">sure</option>
+            <option value="For sure">for sure</option>
           </select>
         </div>
         <div className={styles.inputBox}>
