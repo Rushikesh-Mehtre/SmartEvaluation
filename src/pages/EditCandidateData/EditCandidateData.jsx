@@ -154,53 +154,53 @@ const EditCandidateData = () => {
   const gobackHandler = () => {
     navigate("/reviews");
   };
-  const [progressLoading, setProgressLoading] = useState(false);
+  // const [progressLoading, setProgressLoading] = useState(false);
   // console.log(progress);
-  const [data, setData] = useState();
-  const [resumeUploadStatus, setResumeUploadStatus] = useState("Upload resume");
-  const resumeUploadHandler = (e) => {
-    e.preventDefault();
-    if (!data) {
-      Toastify({
-        text: "Select file to upload",
-        duration: 2000,
-        newWindow: true,
-        close: false,
-        gravity: "top",
-        position: "center",
-        backgroundColor: "#2b6777",
-        stopOnFocus: true,
-      }).showToast();
-      return;
-    }
-    setProgressLoading(true);
-    // const storage = getStorage();
-    const storageRef = ref(storage, data.name);
-    const uploadTask = uploadBytesResumable(storageRef, data);
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        // Observe state change events such as progress, pause, and resume
-        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("Upload is " + progress + "% done");
-      },
-      (error) => {
-        console.log(error.message);
-        // Handle unsuccessful uploads
-      },
-      () => {
-        setProgressLoading(false);
-        console.log("upload the resume");
-        setResumeUploadStatus("resume uploaded");
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log("File available at", downloadURL);
-        });
-      }
-    );
-    console.log(data);
-  };
+  // const [data, setData] = useState();
+  // const [resumeUploadStatus, setResumeUploadStatus] = useState("Upload resume");
+  // const resumeUploadHandler = (e) => {
+  //   e.preventDefault();
+  //   if (!data) {
+  //     Toastify({
+  //       text: "Select file to upload",
+  //       duration: 2000,
+  //       newWindow: true,
+  //       close: false,
+  //       gravity: "top",
+  //       position: "center",
+  //       backgroundColor: "#2b6777",
+  //       stopOnFocus: true,
+  //     }).showToast();
+  //     return;
+  //   }
+  //   setProgressLoading(true);
+  //   // const storage = getStorage();
+  //   const storageRef = ref(storage, data.name);
+  //   const uploadTask = uploadBytesResumable(storageRef, data);
+  //   uploadTask.on(
+  //     "state_changed",
+  //     (snapshot) => {
+  //       // Observe state change events such as progress, pause, and resume
+  //       // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+  //       const progress =
+  //         (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  //       console.log("Upload is " + progress + "% done");
+  //     },
+  //     (error) => {
+  //       console.log(error.message);
+  //       // Handle unsuccessful uploads
+  //     },
+  //     () => {
+  //       setProgressLoading(false);
+  //       console.log("upload the resume");
+  //       setResumeUploadStatus("resume uploaded");
+  //       getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+  //         console.log("File available at", downloadURL);
+  //       });
+  //     }
+  //   );
+  //   console.log(data);
+  // };
   return (
     <div className={styles.editCandidateData}>
       {showLoading && (
@@ -525,7 +525,7 @@ const EditCandidateData = () => {
             }
           />
         </div>
-        <div className={styles.inputBox}>
+        {/* <div className={styles.inputBox}>
           <label htmlFor="">Resume</label>
           <div
             style={{
@@ -565,7 +565,7 @@ const EditCandidateData = () => {
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className={styles.btns}>
           <button onClick={updateHandler} className={styles.updateButton}>
             Update
