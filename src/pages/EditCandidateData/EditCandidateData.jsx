@@ -8,8 +8,11 @@ import "toastify-js/src/toastify.css";
 import "react-toastify/dist/ReactToastify.css";
 import loadingImg from "../../assets/images/loading.gif";
 import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
-import { database, storage } from "../../firebaseConfig";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import {
+  database,
+  // storage 
+} from "../../firebaseConfig";
+// import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 const initialState = [
   {
     analyticalRating: "",
