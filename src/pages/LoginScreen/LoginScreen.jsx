@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./LoginScreen.module.scss";
 import mainImg from "../../assets/images/main-img.jpg";
@@ -17,6 +17,18 @@ const LoginScreen = () => {
     email: "",
     password: "",
   });
+  useEffect(() => {
+    Toastify({
+      text: "For HR - user hr@gmail.com and hr@1234, For Interviewer - user and user@gmail.com and user@1234",
+      duration: 5000,
+      newWindow: true,
+      close: false,
+      gravity: "top",
+      position: "center",
+      backgroundColor: "rgb(75 124 178)",
+      stopOnFocus: true,
+    }).showToast();
+  }, [])
 
   const loginHandler = (e) => {
     e.preventDefault();
@@ -40,10 +52,11 @@ const LoginScreen = () => {
     }
     signInWithEmailAndPassword(auth, user.email, user.password)
       .then((userCredential) => {
+        console.log(userCredential)
         // Signed in
         const user = userCredential.user;
         console.log(userCredential);
-        if (user.uid !== "h968rDJAA2OulnkX0mQeSJeBbrf2") {
+        if (user.uid !== "CX7pGVYeLDOCuquJb0iNZNQVK9m2") {
           localStorage.setItem("role", "interviewer");
           setTimeout(() => {
             setShowLoading(false);

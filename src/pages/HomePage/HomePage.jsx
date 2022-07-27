@@ -94,7 +94,7 @@ const HomePage = () => {
           backgroundColor: "#2b6777",
           stopOnFocus: true,
         }).showToast();
-        setCandidateData(initialState);
+        // setCandidateData(initialState);
       }, 1000);
       console.log(candidateData);
     }
