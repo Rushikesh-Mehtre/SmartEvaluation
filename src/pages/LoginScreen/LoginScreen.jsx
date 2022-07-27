@@ -19,7 +19,7 @@ const LoginScreen = () => {
   });
   useEffect(() => {
     Toastify({
-      text: "For HR - user hr@gmail.com and hr@1234, For Interviewer - user and user@gmail.com and user@1234",
+      text: "Credentials for HR - hr@gmail.com and hr@1234. Credentials for interviewer - user@gmail.com and user@1234",
       duration: 5000,
       newWindow: true,
       close: false,
